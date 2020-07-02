@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Domowy Budżet</title>
+	<meta name="description" content="Aplikacja do zarządzania domowym budżetem">
+	<meta name="keywords" content="budżet, wydatek, przychód, bilans">
+	<meta name="author" content="Daniel Sokanski">
+	<meta http-equiv="X-Ua-Compatible" content="IE=edge,chrome=1">
+	
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/fontello.css" type="text/css"/>
+	<link rel="stylesheet" href="style.css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;subset=latin-ext" rel="stylesheet">
+</head>
+<body>
+	
+	<header>
+		<div class="logo">
+			<h1> BUDŻET DOMOWY </h1>
+			<p> Kompleksowo zarządzaj swoim budżetem domowym </p>
+		</div>
+	</header>
+	<div class="container">
+	<main>
+		<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+			
+			
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Przełącznik nawigacji">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<div class="collapse navbar-collapse" id="mainmenu">
+			
+				<ul class="navbar-nav mr-auto">
+				
+					<li class="nav-item">
+						<a class="nav-link" href="mainmenu.html"> Menu główne </a>
+					</li>
+					
+					<li class="nav-item">
+						<a class="nav-link" href="addincome.html"> Dodaj przychód </a>
+					</li>
+					
+					<li class="nav-item">
+						<a class="nav-link" href="addexpence.html"> Dodaj wydatek </a>
+					</li>
+					
+					<li class="nav-item">
+						<a class="nav-link" href="bilans.html"> Sprawdź bilans </a>
+					</li>
+					
+					<li class="nav-item">
+						<a class="nav-link" href="settings.html"> Ustawienia </a>
+					</li>
+					
+					<li class="nav-item">
+						<a class="nav-link" href="logout.html"> Wyloguj się </a>
+					</li>
+					
+				</ul>
+			
+				<form class="form-inline">
+					<a href="login.html"><button class="btn btn-light" type="submit">Zaloguj się</button> </a>
+					<a href="login.html"><button class="btn btn-light ml-1" type="submit">Zarejestruj się</button></a>
+				
+				</form>
+			
+			</div>
+		</nav>
+		<div class="row">
+		
+			<div class="col-sm-12 mt-4 text-danger font-weight-bold">
+				<p>Jak często zdarzało Ci się przeszacowywać swoje wydatki?</p>
+				<p>Czy planując większy wydatek zachodziłeś w głowę jak to zaplanować? </p>
+				<p>Jak często traciłeś orientacje w sprawach domowych finansów? </p>
+			</div>
+			<div class="col-sm-12 mt-4">
+				<span id="boldtext">ROZWIĄZENIE JEST W ZASIĘGU TWOJEJ RĘKI</span>
+			</div>
+			<div class="col-sm-12 mt-4 text-success font-weight-bold">
+				<p>Proste, intuicyjne narzędzie do codziennego użytku, </br> które pozwoli Ci na bieżącą kontrolę przychodów i wydatków. </p>
+				<p>Proces dodania kolejnej wpłaty lub wypłaty jest możliwy </br> nawet stojąc w kolejce w sklepie czy na stacji benzynowej. </p>
+				<p>Program posiada zadeklarowene odgórnie metody płatności,</br> jednakże jeżeli masz ochote możesz dodawać, usuwać i edytować pola.</p>
+			</div>
+			<div class="col-sm-12 mt-4 text-dark">
+				<span id="boldtext">NIE ZASTANAWIAJ SIĘ DŁUŻEJ I OD DZIŚ W PEŁNI KONTROLUJ SWÓJ PORTFEL</span><br></br>
+			</div>
+	
+		</div>
+		<div class="row">
+		<nav class="newuser">
+			<div class="col-sm-4" id="index-login">
+				<label class="text-dark text-uppercase text-md-center font-weight-bold"> Masz konto? </label> <br> <a href="login.html"><button class="btn btn-light" type="submit" id="submitbtn">Zaloguj się</button> </a>
+			</div>
+			<div class="col-sm-4" id="index-register">
+				<label  class="text-dark text-uppercase text-md-center font-weight-bold"> Jeszcze nie korzystasz? </label> <br> <a href="login.html"><button class="btn btn-light ml-1" type="submit" id="submitbtn">Zarejestruj się</button></a>
+			</div>
+		</nav>
+		</div>
+	</main>
+	</div>
+	<footer>
+		</br></br>
+		<div class="foot">&copy; Wszelkie prawa zastrzeżone. Autor: Daniel Sokański  </div>
+	</footer>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	
+	<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
