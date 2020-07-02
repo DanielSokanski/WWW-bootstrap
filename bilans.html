@@ -7,7 +7,7 @@
 	<meta name="description" content="Aplikacja do zarządzania domowym budżetem">
 	<meta name="keywords" content="budżet, wydatek, przychód, bilans">
 	<meta name="author" content="Daniel Sokanski">
-	<meta http-equiv="X-Ua-Compatible" content="IE=edge,chrome=1">
+	<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
 	
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css"/>
@@ -62,9 +62,9 @@
 				</ul>
 			
 				<form class="form-inline">
-					<a href="login.html"><button class="btn btn-light" type="submit">Zaloguj się</button> </a>
-					<a href="login.html"><button class="btn btn-light ml-1" type="submit">Zarejestruj się</button></a>
-				
+					<input type="button" value="Zaloguj się" onclick="window.location.href='login.html'" />
+					<input type="button" value="Zarejestruj się" onclick="window.location.href='login.html'" />
+
 				</form>
 			
 			</div>
@@ -95,7 +95,7 @@
 		</div>
 		
 		<div class="col-sm-3 col-md-6 mt-4 text-center bg-success text-light">
-			<h3 class="text-center">  Przychody </h2>
+			<h3 class="text-center">  Przychody </h3>
 				  <div class="incometable">Kategoria</div> <div class="incometable">Kwota [zł]</div> <div class="incometable">Opis</div>
 					
 				<div class="incometable">Wynagrodzenie</div> <div class="incometable">4 500,00</div> <div class="incometable">Wypłata 06.2020</div>	
@@ -103,7 +103,7 @@
 		</div>
 		
 		<div class="col-sm-3 col-md-6 mt-4 text-center bg-warning text-dark">
-			<h3 class="text-center">  Koszty </h2>
+			<h3 class="text-center">  Koszty </h3>
 				  <div class="expencetable">Kategoria</div> <div class="expencetable">Kwota [zł]</div> <div class="expencetable">Opis</div>
 					
 				<div class="expencetable">Mieszkanie</div> <div class="expencetable">850,00</div> <div class="expencetable">Czynsz za 06.2020</div>	
@@ -117,8 +117,7 @@
 	</main>
 	</div>
 	<footer>
-		</br></br>
-		<div class="foot">&copy; Wszelkie prawa zastrzeżone. Autor: Daniel Sokański  </div>
+		<div class="mt-5">&copy; Wszelkie prawa zastrzeżone. Autor: Daniel Sokański  </div>
 	</footer>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	

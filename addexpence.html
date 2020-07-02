@@ -7,7 +7,7 @@
 	<meta name="description" content="Aplikacja do zarządzania domowym budżetem">
 	<meta name="keywords" content="budżet, wydatek, przychód, bilans">
 	<meta name="author" content="Daniel Sokanski">
-	<meta http-equiv="X-Ua-Compatible" content="IE=edge,chrome=1">
+	<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
 	
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css"/>
@@ -62,9 +62,9 @@
 				</ul>
 			
 				<form class="form-inline">
-					<a href="login.html"><button class="btn btn-light" type="submit">Zaloguj się</button> </a>
-					<a href="login.html"><button class="btn btn-light ml-1" type="submit">Zarejestruj się</button></a>
-				
+					<input type="button" value="Zaloguj się" onclick="window.location.href='login.html'" />
+					<input type="button" value="Zarejestruj się" onclick="window.location.href='login.html'" />
+
 				</form>
 			
 			</div>
@@ -79,7 +79,7 @@
 		</div>
 		<div class="row">
 		
-				<div class="col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold" id="numbers">
+				<div class="numbers col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold" id="numbers">
 					<p>1.</p>
 				</div>
 				
@@ -91,7 +91,7 @@
 					<input class="ml-4" type="text" name="kwota">
 				</div>
 				
-				<div class="col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold" id="numbers">
+				<div class="numbers col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold">
 					<p>2.</p>
 				</div>
 				
@@ -103,7 +103,7 @@
 					<input class="ml-4" type="date" name="data">
 				</div>
 				
-				<div class="col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold" id="numbers">
+				<div class="numbers col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold">
 					<p>3.</p>
 				</div>
 				
@@ -119,7 +119,7 @@
 					</fieldset>
 				</div>
 				
-				<div class="col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold" id="numbers">
+				<div class="numbers col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold">
 					<p>4.</p>
 				</div>
 				
@@ -149,7 +149,7 @@
 						</select>
 				</div>
 				
-					<div class="col-sm-6 col-md-12 text-md-center mt-3" id="komentarz">
+					<div class="col-sm-6 col-md-12 text-md-center mt-3" id="comment">
 						<div><label for="komentarz"> Komentarz </label></div>
 						<textarea name="komentarz" id="komentarz" rows="3" cols="30" ></textarea>
 					</div>
@@ -162,8 +162,7 @@
 	</main>
 	</div>
 	<footer>
-		</br></br>
-		<div class="foot">&copy; Wszelkie prawa zastrzeżone. Autor: Daniel Sokański  </div>
+		<div class="mt-5">&copy; Wszelkie prawa zastrzeżone. Autor: Daniel Sokański  </div>
 	</footer>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	
