@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	
-	if(isset($_POST['login1']))
+	if(isset($_POST['name']))
 	{
 		$wszystkook = true;
 		
@@ -10,11 +10,6 @@
 		{
 			$wszystkook=false;
 			$_SESSION['e_name']="Nick musi posiadać od 3 do 20 znaków!";
-		}
-		if (ctype_alnum($name)==false)
-		{
-			$wszystkook=false;
-			$_SESSION['e_name']="Nick może składać się tylko z liter i cyfr (bez polskich znaków)";
 		}
 		
 		$haslo1 = $_POST['haslo1'];
@@ -31,17 +26,63 @@
 		
 		if ((filter_var($emailB, FILTER_VALIDATE_EMAIL)==false) || ($emailB!=$email))
 		{
-			$wszystko_OK=false;
+			$wszystkook=false;
 			$_SESSION['e_email']="Podaj poprawny adres e-mail!";
 		}
 		$_SESSION['fr_name'] = $name;
 		$_SESSION['fr_email'] = $email;
 		$_SESSION['fr_haslo1'] = $haslo1;
 
-		if($wszystkook==true)
+
+		require_once "connect.php";
+		mysqli_report(MYSQLI_REPORT_STRICT);
+		
+		try 
 		{
-			//dodanie do bazy
-			echo "Udało się!";exit();
+			$polaczenie = new mysqli($host, $db_user, $db_password, $db_name);
+			if ($polaczenie->connect_errno!=0)
+			{
+				throw new Exception(mysqli_connect_errno());
+			}
+			else
+			{
+				//Czy email już istnieje?
+				$rezultat = $polaczenie->query("SELECT id FROM users WHERE email='$email'");
+				
+				if (!$rezultat) throw new Exception($polaczenie->error);
+				
+				$ile_takich_maili = $rezultat->num_rows;
+				if($ile_takich_maili>0)
+				{
+					$wszystkook=false;
+					$_SESSION['e_email']="Istnieje już konto przypisane do tego adresu e-mail!";
+				}		
+
+
+				if ($wszystkook==true)
+				{
+					//Hurra, wszystkie testy zaliczone, dodajemy gracza do bazy
+					
+					if ($polaczenie->query("INSERT INTO users VALUES (NULL, '$name', '$haslo_hash', '$email')"))
+					{
+						$_SESSION['udanarejestracja']=true;
+						echo "Dziękujemy za rejestrację! Teraz możesz się zalogować na swoje konto.";
+					}
+					else
+					{
+						throw new Exception($polaczenie->error);
+					}
+					
+				}
+				
+				$polaczenie->close();
+			}
+			
+		}
+		catch(Exception $e)
+		{
+			echo '<span style="color:red;">Błąd serwera! Przepraszamy za niedogodności i prosimy o rejestrację w innym terminie!</span>';
+			echo '<br />Informacja developerska: '.$e;
 		}
 	}
 
