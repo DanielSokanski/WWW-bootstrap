@@ -1,3 +1,12 @@
+<?php
+	session_start();
+	if(!isset($_SESSION['loggedin']))
+{
+	header('Location: index.php');
+	exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -71,7 +80,7 @@
 		</nav>
 		<div class="row">
 			<div class="col-md-12 mt-4 text-md-center">
-				<h2> Witaj Użytkowniku</h2>
+				<h2> <?php '<p>Witaj '.$_SESSION['user'].'</p>' ?> </h2>
 				<p>W celu dodania wpłaty kliknij "Dodaj przychód" w górnym menu bądź na przycisk poniżej.</p>
 				<p>Przycisk "Dodaj wydatek" pozwola dodać Twój każdy poniesiony koszt.</p>
 				<p>Przycisk "Sprawdź bilans" pozwoli na graficzne i tabelaryczne przedstawienie stanu twoich finansów w danym okresie czasu.</p>

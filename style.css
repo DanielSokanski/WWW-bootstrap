@@ -201,7 +201,7 @@ input:focus:-ms-input-placeholder
 .error
 {
 	font-size:12px;
-	color:red;
+	color:#ff0000;
 	margin-top:10px;
 	margin-bottom:10px;
 }

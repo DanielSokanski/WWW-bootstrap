@@ -34,51 +34,7 @@ if ((isset($_SESSION['loggedin']))&&($_SESSION['loggedin']==true))
 	</header>
 	<div class="container">
 	<main>
-		<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-			
-			
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Przełącznik nawigacji">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			
-			<div class="collapse navbar-collapse" id="mainmenu">
-			
-				<ul class="navbar-nav mr-auto">
-				
-					<li class="nav-item">
-						<a class="nav-link" href="mainmenu.php"> Menu główne </a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="addincome.php"> Dodaj przychód </a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="addexpence.php"> Dodaj wydatek </a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="bilans.php"> Sprawdź bilans </a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="settings.php"> Ustawienia </a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="logout.php"> Wyloguj się </a>
-					</li>
-					
-				</ul>
-			
-				<form class="form-inline">
-					<input type="button" value="Zaloguj się" onclick="window.location.href='login.php'" />
-					<input type="button" value="Zarejestruj się" onclick="window.location.href='login.php'" />
-
-				</form>
-			
-			</div>
-		</nav>
+		
 		<div class="row">
 		
 			<div class="col-sm-12 mt-4 text-danger font-weight-bold">

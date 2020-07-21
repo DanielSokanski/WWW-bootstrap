@@ -13,7 +13,7 @@
 		}
 		
 		$haslo1 = $_POST['haslo1'];
-		if((strlen($haslo1)<8)||(strlen($haslo1)>20))
+		if((strlen($haslo1)<3)||(strlen($haslo1)>20))
 		{
 			$wszystkook=false;
 			$_SESSION['e_haslo1']="Haslo musi posiadać od 8 do 20 znaków!";
@@ -66,7 +66,7 @@
 					if ($polaczenie->query("INSERT INTO users VALUES (NULL, '$name', '$haslo_hash', '$email')"))
 					{
 						$_SESSION['udanarejestracja']=true;
-						echo "Dziękujemy za rejestrację! Teraz możesz się zalogować na swoje konto.";
+						$_SESSION['e_success']="Dziękujemy za rejestrację! Teraz możesz się zalogować na swoje konto.";
 					}
 					else
 					{
@@ -114,61 +114,20 @@
 	</header>
 	<div class="container">
 	<main>
-		<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-			
-			
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Przełącznik nawigacji">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			
-			<div class="collapse navbar-collapse" id="mainmenu">
-			
-				<ul class="navbar-nav mr-auto">
-				
-					<li class="nav-item">
-						<a class="nav-link" href="mainmenu.php"> Menu główne </a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="addincome.php"> Dodaj przychód </a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="addexpence.php"> Dodaj wydatek </a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="bilans.php"> Sprawdź bilans </a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="settings.php"> Ustawienia </a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="logout.php"> Wyloguj się </a>
-					</li>
-					
-				</ul>
-			
-				<form class="form-inline">
-					<input type="button" value="Zaloguj się" onclick="window.location.href='login.php'" />
-					<input type="button" value="Zarejestruj się" onclick="window.location.href='login.php'" />
-
-				</form>
-			
-			</div>
-		</nav>
+		
 		<div class="row">
 		<article>
 			<div class="col-sm-6 col-md-4 mt-4 pb-2" id="login">
-			<form method="post">
+			<form action="zaloguj.php" method="post">
 					<h2> Zaloguj się </h2>
 					<p></p>
-					<p><label> Login </label> <input type="text" name="login"></p>
-					<p><label> Hasło </label> <input type="password" name="haslo" id="password"></p>
+					<p><label> Imie </label> <input type="text" name="name1"></p>
+					<p><label> Hasło </label> <input type="password" name="haslo" id="haslo2"></p>
 					<input type="submit" value="Zaloguj się">
 			</form>	
+				<?php
+				if (isset($_SESSION['blad'])) echo $_SESSION['blad'];
+				?>
 			</div>
 			
 			<div class="col-sm-6 col-md-4 mt-4 pb-2" id="register">
@@ -219,6 +178,13 @@
 					
 					<input type="submit" value="Zapisz"> 
 					<input type="reset" value="Wyczyść dane"> 
+					<?php
+							if (isset($_SESSION['e_success']))
+							{
+								echo '<div class="error">'.$_SESSION['e_success'].'</div>';
+								unset($_SESSION['e_success']);
+							}
+						?>
 			</form>
 			</div>
 	
