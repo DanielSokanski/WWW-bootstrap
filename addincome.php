@@ -1,6 +1,43 @@
+<?php
+	session_start();
+	$id=$_SESSION['id'];
+	if(isset($_POST['kwota']))
+	{
+	$kwota = $_POST['kwota'];
+	$data = $_POST['data'];
+	$kategoria = $_POST['kategoria'];
+	$komentarz = $_POST['komentarz'];
+
+	require_once "connect.php";
+	
+	$polaczenie = @new mysqli($host, $db_user, $db_password, $db_name);
+
+	if($polaczenie->connect_errno!=0)
+			{
+				echo "Error: ".$polaczenie->connect_errno;
+			}
+	else
+			{	
+				if ($rezultat = @$polaczenie->query(
+				sprintf("SELECT * FROM `incomes_category_assigned_to_users".$id."` WHERE name='%s'",
+				mysqli_real_escape_string($polaczenie,$kategoria))))
+				{
+					$ile_wynikow = $rezultat->num_rows;
+					if($ile_wynikow>0)
+							{
+								$wiersz = $rezultat->fetch_assoc();
+								$cat_id = $wiersz['id'];
+								$polaczenie->query("INSERT INTO incomes VALUES (NULL, '$id' , '$cat_id','$kwota', '$data', '$komentarz')");
+								$rezultat->free_result();
+							}
+				$polaczenie->close();
+				}
+			}
+	}
+?>
 <!DOCTYPE html>
 <html lang="pl">
-<head>
+	<head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Domowy Budżet</title>
@@ -13,8 +50,8 @@
 	<link rel="stylesheet" href="css/fontello.css" type="text/css"/>
 	<link rel="stylesheet" href="style.css">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;subset=latin-ext" rel="stylesheet">
-</head>
-<body>
+	</head>
+	<body>
 	
 	<header>
 		<div class="logo">
@@ -36,98 +73,71 @@
 				<ul class="navbar-nav mr-auto">
 				
 					<li class="nav-item">
-						<a class="nav-link" href="mainmenu.html"> Menu główne </a>
+						<a class="nav-link" href="mainmenu.php"> Menu główne </a>
 					</li>
 					
 					<li class="nav-item active">
-						<a class="nav-link" href="addincome.html"> Dodaj przychód </a>
+						<a class="nav-link" href="addincome.php"> Dodaj przychód </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="addexpence.html"> Dodaj wydatek </a>
+						<a class="nav-link" href="addexpence.php"> Dodaj wydatek </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="bilans.html"> Sprawdź bilans </a>
+						<a class="nav-link" href="bilans.php"> Sprawdź bilans </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="settings.html"> Ustawienia </a>
+						<a class="nav-link" href="settings.php"> Ustawienia </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="logout.html"> Wyloguj się </a>
+						<a class="nav-link" href="logout.php"> Wyloguj się </a>
 					</li>
 					
 				</ul>
 			
-				<form class="form-inline">
-					<input type="button" value="Zaloguj się" onclick="window.location.href='login.html'" />
-					<input type="button" value="Zarejestruj się" onclick="window.location.href='login.html'" />
-
-				</form>
+				
+					<input type="button" value="Wyloguj się" onclick="window.location.href='logout.php';" />
+				
 			
 			</div>
 		</nav>
 		<div class="row">
 
-			<div class="col-sm-6 col-md-12 mt-4 text-center">
+			<div class="col-sm-6 col-md-12 mt-4 text-dark font-weight-bold text-center">
 				<h2>Dodaj przychód</h2>
-				<p>Wypełnij poniższy formularz punkt po punkcie i zatwierdź by wprowadzić dane do programu.</p>
+				<p>Wypełnij poniższy formularz i zatwierdź by wprowadzić dane do programu.</p>
 			</div>
 
 		</div>
 		<div class="row">
+				
 		
-				<div class="col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold">
-					<p>1.</p>
+				<div class="col-sm-6 col-md-6 text-dark text-right mt-3 font-weight-bold" >
+					<p> Podaj kwotę  </p>
+					<p> Data  </p>
+					<p> Kategoria </p>
+					<p> Komentarz </p>
 				</div>
 				
-				<div class="col-sm-2 col-md-3 text-center mt-3 font-weight-bold" >
-					<label> Podaj kwotę  </label>
+				<div class="col-sm-6 col-md-6 text-md-left mt-3">
+					<form method="post">
+						<p><input class="ml-4" type="text" name="kwota"></p>
+						<p><input class="ml-4" type="date" name="data"></p>
+						<p><select id="kategoria" name="kategoria">
+							<option value="Wynagrodzenie" name="Wynagrodzenie" selected>Wynagrodzenie</option>
+							<option value="Odsetki bankowe"  name="Odsetki bankowe"  >Odsetki bankowe</option>
+							<option value="Sprzedaż na allegro"  name="Sprzedaż na allegro" >Sprzedaż na allegro</option>
+							<option value="Inne"  name="Inne" >Inne</option>
+						</select></p>
+						<textarea name="komentarz" id="komentarz" rows="3" cols="30" ></textarea></p>
+						<input class="mr-2 bg-success" type="submit" value="Dodaj">
+						
+					</form>
 				</div>
-				
-				<div class="col-sm-3 col-md-6 text-md-left mt-3">
-					<input class="ml-4" type="text" name="kwota">
-				</div>
-				
-				<div class="col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold">
-					<p>2.</p>
-				</div>
-				
-				<div class="col-sm-2 col-md-3 text-center mt-3 font-weight-bold" id="date">
-					<label> Data  </label> 
-				</div>
-	
-				<div class="col-sm-3 col-md-6 text-md-left mt-3">
-					<input class="ml-4" type="date" name="data">
-				</div>
-	
-				<div class="col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold">
-					<p>3.</p>
-				</div>
-				
-				<div class="col-sm-2 col-md-3 text-center mt-3 font-weight-bold" id="category">
-					<label> Kategoria </label>
-				</div>	
-				
-				<div class="col-sm-3 col-md-6 text-md-left mt-3">
-					<select id="kategoria" name="kategoria[]">
-							<option value="pw" selected>Wynagrodzenie</option>
-							<option value="pob" >Odsetki bankowe</option>
-							<option value="psna">Sprzedaż na allegro</option>
-							<option value="pi">Inne</option>
-						</select>
-				</div>
-				
-					<div class="col-sm-6 col-md-12 text-md-center mt-3" id="comment">
-						<div><label for="komentarz"> Komentarz </label></div>
-						<textarea name="komentarz" id="komentarz" rows="3" cols="30" ></textarea>
-					</div>
-					<div class="col-sm-6 col-md-12 text-md-center mt-3">
-							<input class="mr-2 bg-success" type="submit" value="Dodaj">
-							<input class="mr-2 bg-danger" type="submit" value="Anuluj">
-					</div>
+
 
 		</div>
 	</main>
@@ -140,5 +150,5 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	
 	<script src="js/bootstrap.min.js"></script>
-</body>
+	</body>
 </html>

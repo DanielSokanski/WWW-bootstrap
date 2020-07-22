@@ -45,42 +45,41 @@
 				<ul class="navbar-nav mr-auto">
 				
 					<li class="nav-item active">
-						<a class="nav-link" href="mainmenu.html"> Menu główne </a>
+						<a class="nav-link" href="mainmenu.php"> Menu główne </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="addincome.html"> Dodaj przychód </a>
+						<a class="nav-link" href="addincome.php"> Dodaj przychód </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="addexpence.html"> Dodaj wydatek </a>
+						<a class="nav-link" href="addexpence.php"> Dodaj wydatek </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="bilans.html"> Sprawdź bilans </a>
+						<a class="nav-link" href="bilans.php"> Sprawdź bilans </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="settings.html"> Ustawienia </a>
+						<a class="nav-link" href="settings.php"> Ustawienia </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="logout.html"> Wyloguj się </a>
+						<a class="nav-link" href="logout.php"> Wyloguj się </a>
 					</li>
 					
 				</ul>
 			
-				<form class="form-inline">
-					<input type="button" value="Zaloguj się" onclick="window.location.href='login.html'" />
-					<input type="button" value="Zarejestruj się" onclick="window.location.href='login.html'" />
+				
+					<input type="button" value="Wyloguj się" onclick="window.location.href='logout.php';" />
 
-				</form>
+				
 			
 			</div>
 		</nav>
 		<div class="row">
 			<div class="col-md-12 mt-4 text-md-center">
-				<h2> <?php '<p>Witaj '.$_SESSION['user'].'</p>' ?> </h2>
+				 <h2><?php echo '<p>Witaj '.$_SESSION['username'].'</p>' ?> </h2>
 				<p>W celu dodania wpłaty kliknij "Dodaj przychód" w górnym menu bądź na przycisk poniżej.</p>
 				<p>Przycisk "Dodaj wydatek" pozwola dodać Twój każdy poniesiony koszt.</p>
 				<p>Przycisk "Sprawdź bilans" pozwoli na graficzne i tabelaryczne przedstawienie stanu twoich finansów w danym okresie czasu.</p>
@@ -92,19 +91,19 @@
 		<div class="row">
 		<nav class="col-sm-12">
 			<div class="tile col-sm-2 d-inline-block">
-				<a href="addincome.html" class="tilelink text-light"><i class="icon-plus-1"></i><br/>Dodaj przychód</a>
+				<a href="addincome.php" class="tilelink text-light"><i class="icon-plus-1"></i><br/>Dodaj przychód</a>
 			</div>
 			<div class="tile col-sm-2 d-inline-block">
-				<a href="addexpence.html" class="tilelink text-light"><i class="icon-minus-1"></i><br/>Dodaj wydatek</a>
+				<a href="addexpence.php" class="tilelink text-light"><i class="icon-minus-1"></i><br/>Dodaj wydatek</a>
 			</div>
 			<div class="tile col-sm-2 d-inline-block">
-				<a href="bilans.html" class="tilelink text-light"><i class="icon-chart-bar"></i><br/>Przeglądaj bilans</a>
+				<a href="bilans.php" class="tilelink text-light"><i class="icon-chart-bar"></i><br/>Przeglądaj bilans</a>
 			</div>
 			<div class="tile col-sm-2 d-inline-block">
-				<a href="settings.html" class="tilelink text-light"><i class="icon-tasks"></i><br/>Ustawienia</a>
+				<a href="settings.php" class="tilelink text-light"><i class="icon-tasks"></i><br/>Ustawienia</a>
 			</div>
 			<div class="tile col-sm-2 d-inline-block">
-				<a href="index.html" class="tilelink text-light"><i class="icon-logout"></i><br/>Wyloguj się</a>
+				<a href="logout.php" class="tilelink text-light"><i class="icon-logout"></i><br/>Wyloguj się</a>
 			</div>
 		</nav>
 		</div>

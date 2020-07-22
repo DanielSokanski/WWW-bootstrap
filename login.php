@@ -61,7 +61,7 @@
 
 				if ($wszystkook==true)
 				{
-					//Hurra, wszystkie testy zaliczone, dodajemy gracza do bazy
+					
 					
 					if ($polaczenie->query("INSERT INTO users VALUES (NULL, '$name', '$haslo_hash', '$email')"))
 					{
@@ -122,7 +122,7 @@
 					<h2> Zaloguj się </h2>
 					<p></p>
 					<p><label> Imie </label> <input type="text" name="name1"></p>
-					<p><label> Hasło </label> <input type="password" name="haslo" id="haslo2"></p>
+					<p><label> Hasło </label> <input type="password" name="haslo2" id="haslo"></p>
 					<input type="submit" value="Zaloguj się">
 			</form>	
 				<?php

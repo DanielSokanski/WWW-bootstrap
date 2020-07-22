@@ -36,34 +36,34 @@
 				<ul class="navbar-nav mr-auto">
 				
 					<li class="nav-item">
-						<a class="nav-link" href="mainmenu.html"> Menu główne </a>
+						<a class="nav-link" href="mainmenu.php"> Menu główne </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="addincome.html"> Dodaj przychód </a>
+						<a class="nav-link" href="addincome.php"> Dodaj przychód </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="addexpence.html"> Dodaj wydatek </a>
+						<a class="nav-link" href="addexpence.php"> Dodaj wydatek </a>
 					</li>
 					
 					<li class="nav-item active">
-						<a class="nav-link" href="bilans.html"> Sprawdź bilans </a>
+						<a class="nav-link" href="bilans.php"> Sprawdź bilans </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="settings.html"> Ustawienia </a>
+						<a class="nav-link" href="settings.php"> Ustawienia </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="logout.html"> Wyloguj się </a>
+						<a class="nav-link" href="logout.php"> Wyloguj się </a>
 					</li>
 					
 				</ul>
 			
 				<form class="form-inline">
-					<input type="button" value="Zaloguj się" onclick="window.location.href='login.html'" />
-					<input type="button" value="Zarejestruj się" onclick="window.location.href='login.html'" />
+					<input type="button" value="Zaloguj się" onclick="window.location.href='login.php'" />
+					<input type="button" value="Zarejestruj się" onclick="window.location.href='login.php'" />
 
 				</form>
 			

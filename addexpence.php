@@ -1,3 +1,63 @@
+<?php
+	session_start();
+	$id=$_SESSION['id'];
+	if(isset($_POST['kwota']))
+	{
+		$kwota1 = $_POST['kwota'];
+		$data1 = $_POST['data'];
+		$zaplata = $_POST['zaplata'];
+		$kategoria1 = $_POST['kategoria'];
+		$komentarz1 = $_POST['komentarz'];
+		//echo '<p>' .$id. '</p>';
+		//echo '<p>' .$kwota1. '</p>';
+		//echo '<p>' .$data1. '</p>';
+		//echo '<p>' .$zaplata. '</p>';
+		//echo '<p>' .$kategoria1. '</p>';
+		//echo '<p>' .$komentarz1. '</p>';
+		
+		require_once "connect.php";
+		
+		$polaczenie = @new mysqli($host, $db_user, $db_password, $db_name);
+		
+		if($polaczenie->connect_errno!=0)
+				{
+					echo "Error: ".$polaczenie->connect_errno;
+				}
+		else
+				{	
+					if ($rezultat = @$polaczenie->query(
+					sprintf("SELECT * FROM `expenses_category_assigned_to_users".$id."` WHERE name='%s'",
+					mysqli_real_escape_string($polaczenie,$kategoria1))))
+					{
+						$ile_wynikow = $rezultat->num_rows;
+						if($ile_wynikow>0)
+								{
+									$wiersz = $rezultat->fetch_assoc();
+									$cat_id = $wiersz['id'];
+									//echo '<p>' .$cat_id. '</p>';
+									$rezultat->free_result();
+								}
+						
+					}
+					if ($rezultat1 = @$polaczenie->query(
+					sprintf("SELECT * FROM `payment_methods_assigned_to_users".$id."` WHERE name='%s'",
+					mysqli_real_escape_string($polaczenie,$zaplata))))
+					{
+						$ile_wynikow1 = $rezultat1->num_rows;
+						if($ile_wynikow1>0)
+								{
+									$wiersz1 = $rezultat1->fetch_assoc();
+									$payment_id = $wiersz1['id'];
+									//echo '<p>' .$payment_id. '</p>';
+									$polaczenie->query("INSERT INTO expenses VALUES (NULL, '$id' , '$cat_id','$payment_id','$kwota1', '$data1', '$komentarz1')");
+									$rezultat1->free_result();
+								}
+					}
+					$polaczenie->close();
+				}
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -36,128 +96,91 @@
 				<ul class="navbar-nav mr-auto">
 				
 					<li class="nav-item">
-						<a class="nav-link" href="mainmenu.html"> Menu główne </a>
+						<a class="nav-link" href="mainmenu.php"> Menu główne </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="addincome.html"> Dodaj przychód </a>
+						<a class="nav-link" href="addincome.php"> Dodaj przychód </a>
 					</li>
 					
 					<li class="nav-item active">
-						<a class="nav-link" href="addexpence.html"> Dodaj wydatek </a>
+						<a class="nav-link" href="addexpence.php"> Dodaj wydatek </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="bilans.html"> Sprawdź bilans </a>
+						<a class="nav-link" href="bilans.php"> Sprawdź bilans </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="settings.html"> Ustawienia </a>
+						<a class="nav-link" href="settings.php"> Ustawienia </a>
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="logout.html"> Wyloguj się </a>
+						<a class="nav-link" href="logout.php"> Wyloguj się </a>
 					</li>
 					
 				</ul>
 			
-				<form class="form-inline">
-					<input type="button" value="Zaloguj się" onclick="window.location.href='login.html'" />
-					<input type="button" value="Zarejestruj się" onclick="window.location.href='login.html'" />
-
-				</form>
+				
+					
+					<input type="button" value="Wyloguj się" onclick="window.location.href='logout.php';" />
+				
 			
 			</div>
 		</nav>
 		<div class="row">
 		
-			<div class="col-sm-6 col-md-12 mt-4 text-center">
+			<div class="col-sm-6 col-md-12 mt-4 text-center text-dark font-weight-bold">
 				<h2>Dodaj wydatek</h2>
-				<p>Wypełnij poniższy formularz punkt po punkcie i zatwierdź by wprowadzić dane do programu.</p>
+				<p>Wypełnij poniższy formularz i zatwierdź by wprowadzić dane do programu.</p>
 			</div>
 			
 		</div>
 		<div class="row">
 		
-				<div class="numbers col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold" id="numbers">
-					<p>1.</p>
+				
+				
+				<div class="col-sm-6 col-md-6 mt-3 text-dark font-weight-bold text-right" id="value">
+					<p><label> Podaj kwotę  </label></p>
+					<p><label> Data  </label> </p>
+					<p><label> Sposób płatności</label></p><br /><br /><br /><br />
+					<p><label> Kategoria </label></p>
+					<p><label> Komentarz </label></p>
 				</div>
 				
-				<div class="col-sm-2 col-md-3 text-center mt-3 font-weight-bold" id="value">
-					<label> Podaj kwotę  </label>
+				<div class="col-sm-6 col-md-6 text-md-left mt-3">
+				<form method="post">
+					<p><input class="ml-4" type="text" name="kwota"></p>
+					<p><input class="ml-4" type="date" name="data"></p>
+					<p><fieldset>	
+						<p><label><input type="radio" value="Gotowka" name="zaplata" checked> Gotówka </label></p>
+						<p><label><input type="radio" value="Karta debetowa" name="zaplata"> Karta debetowa </label></p>
+						<p><label><input type="radio" value="Karta kredytowa" name="zaplata"> Karta kredytowa </label></p>
+					</fieldset></p>
+					<p><select id="kategoria" name="kategoria">
+							<option value="Jedzenie" name="Jedzenie" selected>Jedzenie</option>
+							<option value="Mieszkanie" name="Mieszkanie">Mieszkanie</option>
+							<option value="Transport" name="Transport">Transport</option>
+							<option value="Telekomunikacja" name="Telekomunikacja">Telekomunikacja</option>
+							<option value="Opieka zdrowotna" name="Opieka zdrowotna">Opieka zdrowotna</option>
+							<option value="Ubranie" name="Ubranie">Ubranie</option>
+							<option value="Higiena" name="Higiena">Higiena</option>
+							<option value="Dzieci" name="Dzieci">Dzieci</option>
+							<option value="Rozrywka" name="Rozrywka">Rozrywka</option>
+							<option value="Szkolenia" name="Szkolenia">Szkolenia</option>
+							<option value="Książki" name="Książki">Książki</option>
+							<option value="Oszczędności" name="Oszczędności">Oszczędności</option>
+							<option value="Na złotą jesień, czyli emeryturę" name="Na złotą jesień, czyli emeryturę">Na złotą jesień, czyli emeryturę</option>
+							<option value="Spłata długów" name="Spłata długów">Spłata długów</option>
+							<option value="Darowizna" name="Darowizna">Darowizna</option>
+							<option value="Inne wydatki" name="Inne wydatki">Inne wydatki</option>
+						</select></p>
+						<p><textarea name="komentarz" id="komentarz" rows="3" cols="30" ></textarea></p>
+						<input class="mr-2 bg-success" type="submit" value="Dodaj">
+						
+						</post>
 				</div>
 				
-				<div class="col-sm-3 col-md-6 text-md-left mt-3" id="evalue">
-					<input class="ml-4" type="text" name="kwota">
-				</div>
-				
-				<div class="numbers col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold">
-					<p>2.</p>
-				</div>
-				
-				<div class="col-sm-2 col-md-3 text-center mt-3 font-weight-bold" id="date">
-					<label> Data  </label> 
-				</div>
-	
-				<div class="col-sm-3 col-md-6 text-md-left mt-3" id="edate">
-					<input class="ml-4" type="date" name="data">
-				</div>
-				
-				<div class="numbers col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold">
-					<p>3.</p>
-				</div>
-				
-				<div class="col-sm-2 col-md-3 text-center mt-3 font-weight-bold" id="payment">
-						<label> Sposób płatności</label>
-				</div>
-				
-				<div class="col-sm-3 col-md-6 text-md-left mt-3" id="epayment">
-					<fieldset>	
-						<div><label><input type="radio" value="got" name="got" checked> Gotówka </label></div>
-						<div><label><input type="radio" value="kd" name="kd"> Karta debetowa </label></div>
-						<div><label><input type="radio" value="kk" name="kk"> Karta kredytowa </label></div>
-					</fieldset>
-				</div>
-				
-				<div class="numbers col-sm-2 col-md-3 text-md-right mt-3 font-weight-bold">
-					<p>4.</p>
-				</div>
-				
-				<div class="col-sm-2 col-md-3 text-center mt-3 font-weight-bold" id="category">
-					<label> Kategoria </label>
-
-				</div>	
-				
-				<div class="col-sm-3 col-md-6 text-md-left mt-3" id="ecategory">
-						<select id="kategoria" name="kategoria[]">
-							<option value="j" selected>Jedzenie</option>
-							<option value="m" >Mieszkanie</option>
-							<option value="t">Transport</option>
-							<option value="te">Telekomunikacja</option>
-							<option value="oz">Opieka zdrowotna</option>
-							<option value="u">Ubranie</option>
-							<option value="h">Higiena</option>
-							<option value="dz">Dzieci</option>
-							<option value="r">Rozrywka</option>
-							<option value="s">Szkolenia</option>
-							<option value="k">Książki</option>
-							<option value="o">Oszczędności</option>
-							<option value="e">Na złotą jesień, czyli emeryturę</option>
-							<option value="sd">Spłata długów</option>
-							<option value="d">Darowizna</option>
-							<option value="iw">Inne wydatki</option>
-						</select>
-				</div>
-				
-					<div class="col-sm-6 col-md-12 text-md-center mt-3" id="comment">
-						<div><label for="komentarz"> Komentarz </label></div>
-						<textarea name="komentarz" id="komentarz" rows="3" cols="30" ></textarea>
-					</div>
-					<div class="col-sm-6 col-md-12 text-md-center mt-3">
-							<input class="mr-2 bg-success" type="submit" value="Dodaj">
-							<input class="mr-2 bg-danger" type="submit" value="Anuluj">
-					</div>
-
 		</div>
 	</main>
 	</div>
