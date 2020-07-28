@@ -184,24 +184,55 @@ input:focus:-ms-input-placeholder
 {
 	text-decoration:none;
 }
-.incometable
+.bilanstable
 {
-	width:30%;
+	width:45%;
 	display:inline-block;
 	border:1px solid white;
 	margin-bottom:5px;
+	
 }
-.expencetable
-{
-	width:30%;
-	display:inline-block;
-	border:1px solid white;
-	margin-bottom:5px;
-}
+
 .error
 {
 	font-size:12px;
 	color:#ff0000;
 	margin-top:10px;
 	margin-bottom:10px;
+}
+
+.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+/* Set a style for the submit/login button */
+.form-container .button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .button:hover, .open-button:hover {
+  opacity: 1;
 }

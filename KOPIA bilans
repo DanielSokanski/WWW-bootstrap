@@ -5,8 +5,6 @@
 	if(isset($_POST['okres']))
 	{
 		$okres = $_POST['okres'];
-		$data_pocz=NULL;
-		$data_kon=NULL;
 		require_once "connect.php";
 		$polaczenie = @new mysqli($host, $db_user, $db_password, $db_name);
 		if($polaczenie->connect_errno!=0)
@@ -17,8 +15,7 @@
 		else if (($okres=="Bieżący miesiąc")||($okres=="Poprzedni miesiąc")||($okres=="Poprzedni rok"))
 		{
 			$polaczenie->query("DROP TABLE bilansresults");
-			
-				$polaczenie->query("CREATE TABLE bilansresults 
+			$polaczenie->query("CREATE TABLE bilansresults 
 													(id INT(11)NOT NULL AUTO_INCREMENT,
 													category VARCHAR(50) NOT NULL,
 													value DECIMAL(8,2) NOT NULL,
@@ -82,7 +79,7 @@
 													}
 												$cat = $_SESSION['kategoria'];
 												$sum = $_SESSION['suma'];
-												$polaczenie->query("INSERT INTO bilansresults VALUES (NULL,'$cat', '$sum','koszt')");					
+												$polaczenie->query("INSERT INTO bilansresults VALUES (NULL, '$cat', '$sum','koszt')");					
 											}
 										$rezultat->free_result();
 									}
@@ -119,88 +116,38 @@
 													}
 												$cat = $_SESSION['kategoria'];
 												$sum = $_SESSION['suma'];
-												$polaczenie->query("INSERT INTO bilansresults VALUES (NULL,'$cat', '$sum','przychod')");					
+												$polaczenie->query("INSERT INTO bilansresults VALUES (NULL, '$cat', '$sum','przychod')");					
 											}
 										$rezultat1->free_result();
 										}
 									}		
 									
-							}		
-			$do_wyswietlenia_koszty = $polaczenie->query("SELECT * FROM bilansresults WHERE type='koszt' ORDER BY value DESC");
-		$no_categories1= $do_wyswietlenia_koszty->num_rows;
-			if($no_categories1 > 0) 
-			{
-					$_SESSION['expenserecord']=true;
-			}
-		$do_wyswietlenia_przychody = $polaczenie->query("SELECT * FROM bilansresults WHERE type='przychod' ORDER BY value DESC");
-		$no_categories2= $do_wyswietlenia_przychody->num_rows;
-			if($no_categories2 > 0) 
-			{
-					$_SESSION['incomerecord']=true;
-			}
-				$connect = mysqli_connect($host, $db_user, $db_password, $db_name);  
-				$query = "SELECT `category`,`value`FROM bilansresults GROUP BY `category`";  
-			if((	$result = mysqli_query($polaczenie, $query)))
-			{
-					$_SESSION['pie_chart']=true;
-			}								
+							}			
 		}
 		
 		
 		else if ($okres=="Niestandardowy")
 		{
-							echo '<div class="col-sm-12 col-md-12 mt-4 text-center text-dark"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#niestandard">
-								Wprowadź daty</button></div>';	
-							echo '
-
-  <div class="modal" id="niestandard" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-body">
-			<form method="get">
-          <input class="ml-4" type="date" name="data_pocz"  required>
-		  <input class="ml-4" type="date" name="data_kon" required>
-			
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-          <button type="submit" class="btn btn-primary" data-toggle="modal" 
-		 
-		  >Zatwierdź</button>
-		  </form >	
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>';	
-  
-  
-			$data_kon=null;
-			$data_pocz=null;
-			//$_SESSION['niestandardowa_data']=true;
-			if (isset($_GET['data_pocz']))
-			{
-			$data_pocz=$_GET['data_pocz'];
-			echo $data_pocz.'<br />';
-			$data_kon=$_GET['data_pocz'];
-			echo $data_kon;
-				$polaczenie->query("DROP TABLE bilansresults");
-					$polaczenie->query("CREATE TABLE bilansresults 
+		$data_pocz=NULL;
+		$data_kon=NULL;	
+		$polaczenie->query("DROP TABLE bilansresults");
+		$polaczenie->query("CREATE TABLE bilansresults 
 													(id INT(11)NOT NULL AUTO_INCREMENT,
 													category VARCHAR(50) NOT NULL,
 													value DECIMAL(8,2) NOT NULL,
 													type VARCHAR(50) NOT NULL,
 													PRIMARY KEY (id))");
-				
-				if($Ile_kategorii = @$polaczenie->query("SELECT * FROM `expenses_category_assigned_to_users".$id."`"))
-							{
-								$no_categories= $Ile_kategorii->num_rows;
-							}
-					for($i=1;$i<=$no_categories;$i++)
-					{	
-						if ($rezultat = @$polaczenie->query("SELECT * FROM `expenses` WHERE date_of_expense BETWEEN  '".$data_pocz."' AND '".$data_kon."' AND user_id=".$id." AND ".$i."=expense_category_assigned_to_user_id"))
-							{
-							$ile_rekordow=0;							$ile_wynikow = $rezultat->num_rows;
+		$_SESSION['niestandardowa_data']=true;
+		if (isset($_GET['data_pocz']))
+			{
+				$data_pocz = $_GET['data_pocz'];
+				$data_kon = $_GET['data_kon'];
+				echo $data_pocz;
+				echo $data_kon;
+				if ($rezultat = @$polaczenie->query("SELECT * FROM `expenses` WHERE date_of_expense BETWEEN  '".$data_pocz."' AND '".$data_kon."' AND user_id=".$id." AND ".$i."=expense_category_assigned_to_user_id"))
+					{
+						$ile_rekordow=0;
+						$ile_wynikow = $rezultat->num_rows;
 							if($ile_wynikow!=0)
 								{
 									$suma = 0;
@@ -214,29 +161,25 @@
 														$kategoria = $wiersz['name'];
 														$categoryname->free_result();
 													}
+												$ilosc_tabel ++;
+												$_SESSION['ilosc_tabel']=$ilosc_tabel;
 												if($_SESSION['kategoria']!=$kategoria)
 													{
 														$_SESSION['kategoria']=$kategoria;
 													}
 												$_SESSION['suma']=$suma;
-
+												$_SESSION['ile_rekordow']=$ile_rekordow;
 										}
 											$cat = $_SESSION['kategoria'];
 											$sum = $_SESSION['suma'];
-											$polaczenie->query("INSERT INTO bilansresults VALUES (NULL,'$cat', '$sum','koszt')");					
+											$polaczenie->query("INSERT INTO bilansresults VALUES (NULL, '$cat', '$sum','koszt')");					
 								}
 									$rezultat->free_result();
-							}
 					}
-				if($Ile_kategorii1 = @$polaczenie->query("SELECT * FROM `incomes_category_assigned_to_users".$id."`"))
-							{
-								$no_categories1= $Ile_kategorii1->num_rows;
-							}
-							for($i=1;$i<=$no_categories1;$i++)
-							{	
 					
-								if ($rezultat1 = @$polaczenie->query("SELECT * FROM `incomes` WHERE date_of_income BETWEEN  '".$data_pocz."' AND '".$data_kon."' AND user_id=".$id." AND ".$i."=income_category_assigned_to_user_id"))
+						if ($rezultat1 = @$polaczenie->query("SELECT * FROM `incomes` WHERE date_of_income BETWEEN  '".$data_pocz."' AND '".$data_kon."' AND user_id=".$id." AND ".$i."=expense_category_assigned_to_user_id"))
 							{
+								$ile_rekordow=0;
 								$ile_wynikow1 = $rezultat1->num_rows;
 									if($ile_wynikow1!=0)
 										{
@@ -251,23 +194,25 @@
 																$kategoria = $wiersz1['name'];
 																$categoryname1->free_result();
 															}
+														$ilosc_tabel ++;
+														$_SESSION['ilosc_tabel']=$ilosc_tabel;
 														if($_SESSION['kategoria']!=$kategoria)
 															{
 																$_SESSION['kategoria']=$kategoria;
 															}
 														$_SESSION['suma']=$suma;
-
+														$_SESSION['ile_rekordow']=$ile_rekordow;
 													}
 											$cat = $_SESSION['kategoria'];
 											$sum = $_SESSION['suma'];
-											$polaczenie->query("INSERT INTO bilansresults VALUES (NULL,'$cat', '$sum','przychod')");				
+											$polaczenie->query("INSERT INTO bilansresults VALUES (NULL, '$cat', '$sum','przychod')");				
 										}
 								$rezultat1->free_result();
 							}
-					
-							}				
-			}
-				$do_wyswietlenia_koszty = $polaczenie->query("SELECT * FROM bilansresults WHERE type='koszt' ORDER BY value DESC");
+					}
+							
+		}
+		$do_wyswietlenia_koszty = $polaczenie->query("SELECT * FROM bilansresults WHERE type='koszt' ORDER BY value DESC");
 		$no_categories1= $do_wyswietlenia_koszty->num_rows;
 			if($no_categories1 > 0) 
 			{
@@ -279,24 +224,14 @@
 			{
 					$_SESSION['incomerecord']=true;
 			}
-			$connect = mysqli_connect($host, $db_user, $db_password, $db_name);  
-				$query = "SELECT 'category','value' FROM bilansresults GROUP BY 'category'";  
-				
-			if((	$result = mysqli_query($polaczenie, $query)))
-			{
-
-					$_SESSION['pie_chart']=true;
-			}	
 			
-		
-					
-		}
-		
-	
 		$polaczenie->close();
 
 	}
-
+							/*	if(($rezultat3=@$polaczenie->query("SELECT 'category',count('value') FROM bilansresults GROUP BY 'category'")))
+					{
+	$_SESSION['pie_chart']=true;
+					}*/
 
 		
 
@@ -316,7 +251,7 @@
 	<link rel="stylesheet" href="css/fontello.css" type="text/css"/>
 	<link rel="stylesheet" href="style.css">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;subset=latin-ext" rel="stylesheet">
-	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	
 	<script>
 function openForm() {
   document.getElementById("myForm").style.display = "block";
@@ -326,43 +261,7 @@ function closeForm() {
   document.getElementById("myForm").style.display = "none";
 }
 </script>
- <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-	  
-      function drawChart() 
-	  {
 
-        var data = google.visualization.arrayToDataTable([
-          ['category', 'value'],
-<?php
-		$no_categories3= $result->num_rows;
-		$i=0;
-		while($row = mysqli_fetch_array($result))
-		{		
-			if ($i<$no_categories3-1)
-			{
-				echo "['".$row["category"]."',".$row["value"]."],";
-				$i++;	
-				}
-			else 
-			{
-				echo "['".$row["category"]."',	".$row["value"]."]";
-			}
-		}
-?>
-        ]);
-
-        var options = {
-          title: 'Wydatki i przychody we wskazanym okresie czasu',
-		  is3D: true,
-		 
-        };
-		var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
-
-        chart.draw(data, options);
-	  }
-		</script>
 </head>
 <body>
 	
@@ -443,7 +342,36 @@ function closeForm() {
 		</div>
 			</form>
 		
+			<?php
+				if (isset($_SESSION['niestandardowa_data']))
+				{	
+					echo '<div class="col-sm-12 col-md-12 mt-4 text-center text-dark"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#niestandard">
+								Wprowadź daty</button></div>';	
+					echo'<div class="col-sm-12 col-md-12 mt-4 text-center text-dark">
 
+  <div class="modal" id="niestandard" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+			<form method="get">
+          <input class="ml-4" type="date" name="data_pocz"  required>
+		  <input class="ml-4" type="date" name="data_kon" required>
+			
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" 
+		 
+		  >Zatwierdź</button>
+		  </form >	
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>';
+				}
+				unset($_SESSION['niestandardowa_data']);
+			?>
 		
 
 		<div class="col-sm-3 col-md-6 mt-4 text-center bg-success text-light">
@@ -511,38 +439,37 @@ function closeForm() {
 					if($wynik>0)
 					{
 						echo '<div class="row">';
-						echo '<div class="col-sm-12 col-md-12 mt-4 text-dark text-center border bg-white font-weight-bold">
-						<h4 >Gratulacje. Świetnie zarządzasz finansami!</h4>
-						<h4 >Bilans: '.$wynik.' zł</h4></div>';
+						echo '<div class="col-sm-12 col-md-12 mt-4 text-dark text-center border bg-white">
+						<h5 >Gratulacje. Świetnie zarządzasz finansami!</h5>
+						<h5 >Bilans: '.$wynik.' zł</h5></div>';
 						echo '</div">';
 					}
 					if($wynik<0)
 					{
 						
 						echo '<div class="row">';
-						echo '<div class="col-sm-12 col-md-12 mt-4 text-danger text-center border bg-white font-weight-bold">
-						<h4 >Uważaj, wpadasz w długi!</h4>
-						<h4 >Bilans: '.$wynik.' zł</h4></div>';
+						echo '<div class="col-sm-12 col-md-12 mt-4 text-danger text-center border bg-white">
+						<h5 >Uważaj, wpadasz w długi!</h5>
+						<h5 >Bilans: '.$wynik.' zł</h5></div>';
 						echo '</div">';
 					}
-					
 
 				}
 				unset ($_SESSION['opis']);
 				?>
-				<div class="col-sm-12 col-md-12 bg-white">
-				
 				
 <?php
 					if (isset($_SESSION['pie_chart']))
 					{
-					echo '<div id="piechart_3d" style="width:100%;height:400px;margin-left:auto;margin-right:auto;"></div>';
-
+					
+						echo '<div class="row">';
+									echo '<div id="piechart" style="width:900px;height:px;"></div>';
+						echo '</div>';
 					}
 					
 					unset ($_SESSION['pie_chart']);
 				?>
-				</div>
+
 		
 	</main>
 	</div>

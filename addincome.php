@@ -124,8 +124,8 @@
 				
 				<div class="col-sm-6 col-md-6 text-md-left mt-3">
 					<form method="post">
-						<p><input class="ml-4" type="text" name="kwota"></p>
-						<p><input class="ml-4" type="date" name="data"></p>
+						<p><input class="ml-4" type="text" name="kwota" reqired></p>
+						<p><input class="ml-4" type="date" name="data" reqired></p>
 						<p><select id="kategoria" name="kategoria">
 							<option value="Wynagrodzenie" name="Wynagrodzenie" selected>Wynagrodzenie</option>
 							<option value="Odsetki bankowe"  name="Odsetki bankowe"  >Odsetki bankowe</option>
