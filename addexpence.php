@@ -150,8 +150,8 @@
 				
 				<div class="col-sm-6 col-md-6 text-md-left mt-3">
 				<form method="post">
-					<p><input class="ml-4" type="text" name="kwota"></p>
-					<p><input class="ml-4" type="date" name="data"></p>
+					<p><input class="ml-4" type="text" name="kwota" reqired></p>
+					<p><input class="ml-4" type="date" name="data" reqired></p>
 					<p><fieldset>	
 						<p><label><input type="radio" value="Gotowka" name="zaplata" checked> Gotówka </label></p>
 						<p><label><input type="radio" value="Karta debetowa" name="zaplata"> Karta debetowa </label></p>
