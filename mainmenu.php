@@ -57,7 +57,7 @@
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="bilans.php"> Sprawdź bilans </a>
+						<a class="nav-link" href="bilans.php?okres=Bieżący+miesiąc"> Sprawdź bilans </a>
 					</li>
 					
 					<li class="nav-item">
@@ -97,7 +97,7 @@
 				<a href="addexpence.php" class="tilelink text-light"><i class="icon-minus-1"></i><br/>Dodaj wydatek</a>
 			</div>
 			<div class="tile col-sm-2 d-inline-block">
-				<a href="bilans.php" class="tilelink text-light"><i class="icon-chart-bar"></i><br/>Przeglądaj bilans</a>
+				<a href="bilans.php?okres=Bieżący+miesiąc" class="tilelink text-light"><i class="icon-chart-bar"></i><br/>Przeglądaj bilans</a>
 			</div>
 			<div class="tile col-sm-2 d-inline-block">
 				<a href="settings.php" class="tilelink text-light"><i class="icon-tasks"></i><br/>Ustawienia</a>

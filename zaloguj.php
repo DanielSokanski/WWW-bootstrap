@@ -71,13 +71,13 @@ if ((!isset($_POST['name1'])) || (!isset($_POST['haslo2'])))
 										}
 								else 
 								{
-									$_SESSION['blad'] = '<span style="color:red">1111Nieprawidłowy login lub hasło!</span>';
+									$_SESSION['blad'] = '<span style="color:red">Nieprawidłowy login lub hasło!</span>';
 									header('Location: index.php');
 								}
 							} 
 							else {
 								
-								$_SESSION['blad'] = '<span style="color:red">2222Nieprawidłowy login lub haslo!</span>';
+								$_SESSION['blad'] = '<span style="color:red">Nieprawidłowy login lub haslo!</span>';
 								header('Location: index.php');
 								
 							}

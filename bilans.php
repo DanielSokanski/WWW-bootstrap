@@ -2,9 +2,10 @@
 	session_start();
 	$id=$_SESSION['id'];
 	
-	if(isset($_POST['okres']))
+	if(isset($_GET['okres']))
 	{
-		$okres = $_POST['okres'];
+		$okres = $_GET['okres'];
+		
 		require_once "connect.php";
 		$polaczenie = @new mysqli($host, $db_user, $db_password, $db_name);
 		if($polaczenie->connect_errno!=0)
@@ -27,7 +28,7 @@
 			$data=date("Y-m");
 			$year  = date('Y'); 
 			$time = strtotime("now");
-			$final = date("Y-m", strtotime("-1 month", $time));
+			$previousmonth = date('Y-m', strtotime(date('Y-m')." -1 month"));
 				if($Ile_kategorii = @$polaczenie->query("SELECT * FROM `expenses_category_assigned_to_users".$id."`"))
 					{
 						$no_categories= $Ile_kategorii->num_rows;
@@ -40,7 +41,7 @@
 						}
 						else if  ($okres=="Poprzedni miesiąc")	
 						{
-							$quotationdate = $final;
+							$quotationdate = $previousmonth;
 						}
 						else if  ($okres=="Bieżący rok")	
 						{
@@ -77,6 +78,7 @@
 						}
 					$rezultat->free_result();
 				}
+
 					}
 				if($Ile_kategorii1 = @$polaczenie->query("SELECT * FROM `incomes_category_assigned_to_users".$id."`"))
 					{
@@ -125,17 +127,13 @@
 			{
 					$_SESSION['incomerecord']=true;
 			}
-			$query = "SELECT `category`,`value`FROM bilansresults GROUP BY `category`";  
+			$query = "SELECT `category`,`value`FROM bilansresults WHERE type='koszt' GROUP BY `category`";  
 			if((	$result = mysqli_query($polaczenie, $query)))
 			{
-					$_SESSION['pie_chart']=true;
-			}								
+					$_SESSION['pie_chartkoszt']=true;
+			}				
+			
 		}
-		else if ($okres=="Niestandardowy")
-		{		
-		$_SESSION['niestandardowa_data']=true;	
-		}
-		$polaczenie->close();
 	}
 	else if(isset($_POST['data_pocz']))
 	{
@@ -240,11 +238,12 @@
 		{
 			$_SESSION['incomerecord']=true;
 		}
-		$query = "SELECT `category`,`value`FROM bilansresults GROUP BY `category`";  
-		if((	$result = mysqli_query($polaczenie, $query)))
-		{
-			$_SESSION['pie_chart']=true;
-		}								
+			$query = "SELECT `category`,`value`FROM bilansresults WHERE type='koszt' GROUP BY `category`";  
+			if((	$result = mysqli_query($polaczenie, $query)))
+			{
+					$_SESSION['pie_chartkoszt']=true;
+			}				
+								
 		$polaczenie->close();
 	}
 
@@ -265,7 +264,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;subset=latin-ext" rel="stylesheet">
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
+     google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
 	  
       function drawChart() 
@@ -291,15 +290,20 @@
 		?>
         ]);
         var options = {
-          title: 'Wydatki i przychody we wskazanym okresie czasu',
+          title: 'Wydatki we wskazanym okresie czasu',
 		  is3D: true,
         };
 		var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
         chart.draw(data, options);
 	  }
+	  
+ 
+
 		</script>
+		
 </head>
 <body>
+
 	<header>
 		<div class="logo">
 			<h1> BUDŻET DOMOWY </h1>
@@ -324,7 +328,7 @@
 						<a class="nav-link" href="addexpence.php"> Dodaj wydatek </a>
 					</li>
 					<li class="nav-item active">
-						<a class="nav-link" href="bilans.php"> Sprawdź bilans </a>
+						<a class="nav-link" href="bilans.php?okres=Bieżący+miesiąc"> Sprawdź bilans </a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="settings.php"> Ustawienia </a>
@@ -338,33 +342,31 @@
 		</nav>
 		<div class="row">
 			<div class="col-sm-12 col-md-12 mt-4 text-dark text-center">
-				<h2> Bilans</h2>
-				<p>Sprawdź czy w danym okresie czasu udało Ci się zaoszczędzić.</p>
+				<h2><b> Bilans </b></h2>
+				<h4>Sprawdź czy w danym okresie czasu udało Ci się zaoszczędzić.</h4>
 			</div>
 		</div>
 		<div class="row">
-		<div class="col-sm-12 col-md-12 mt-4 text-center text-dark">
-			<label> Z jakiego zakresu czasowego chcesz zobaczyć swój bilans? </label>
-			<p>Wybierz z poniższej listy</p>
-			<div style="margin-top:10px;">
-			<form method="post">
+		<div class="col-sm-12 col-md-12 mt-2 text-center text-dark">
+			<h5> Z jakiego zakresu czasowego chcesz zobaczyć swój bilans? </h5>
+			<p>Wybierz z poniższych list</p>
+			
+			<form  id="okresczasu" method="get">
+				<div class="col-sm-6col-md-6 mt-4 text-center text-dark d-inline-block text-right">
 				<select id="okres" name="okres">
 					<option value="Bieżący miesiąc" name="Bieżący miesiąc" selected>Bieżący miesiąc</option>
 					<option value="Poprzedni miesiąc" name="Poprzedni miesiąc">Poprzedni miesiąc</option>
 					<option value="Bieżący rok" name="Bieżący rok">Bieżący rok</option>
-					<option value="Niestandardowy" name="Niestandardowy">Niestandardowy</option>
 				</select>
-			</div>
-			<br><input type="submit" value="Wybierz">
+				</div>
+				<div class="col-sm-6col-md-6 mt-4 text-center text-dark d-inline-block">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#niestandard">Niestandardowy okres</button>
+				</div>
+				
+			<br><input type="submit" id="startrunning" value="Wybierz">
+			
 		</div>
 			</form>
-		<?php 
-		if (isset($_SESSION['niestandardowa_data']))
-		{
-			echo '<div class="col-sm-12 col-md-12 mt-4 text-center text-dark"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#niestandard">Wprowadź daty</button></div>';
-		}
-		unset($_SESSION['niestandardowa_data']);
-		?>
 		  <div class="modal" id="niestandard" tabindex="-1" role="dialog">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -399,6 +401,7 @@
 		}		
 		unset($_SESSION['incomerecord']);
 		?>
+	
 		</div>
 		<div class="col-sm-6 col-md-6 mt-4 text-center bg-warning text-dark">
 			<h3 class="text-center">  Koszty </h3>
@@ -418,7 +421,8 @@
 				$_SESSION['expensesum']=$expensesum;
 			}		
 			unset($_SESSION['expenserecord']);
-		?>	
+
+		?>
 		</div>
 		</div>
 		<?php
@@ -460,16 +464,18 @@
 		unset ($_SESSION['opis']);
 		unset ($_SESSION['expensesum']);
 		?>
-				<div class="col-sm-12 col-md-12 bg-white">
+				<div class="col-sm-12 col-md-12 bg-white d-inline-block">
 		<?php
-			if (isset($_SESSION['pie_chart']))
+			if (isset($_SESSION['pie_chartkoszt']))
+			
 			{
-			echo '<div id="piechart_3d" style="width:100%;height:400px;margin-left:auto;margin-right:auto;"></div>';
+			echo '<div id="piechart_3d" style="width:100%;height:400px;margin-left:auto;margin-right:auto;display:inline-block;"></div>';
 
 			}
 			
-			unset ($_SESSION['pie_chart']);
+			unset ($_SESSION['pie_chartkoszt']);
 		?>
+
 	</div>
 	</main>
 	</div>

@@ -8,13 +8,16 @@
 		$zaplata = $_POST['zaplata'];
 		$kategoria1 = $_POST['kategoria'];
 		$komentarz1 = $_POST['komentarz'];
-		//echo '<p>' .$id. '</p>';
-		//echo '<p>' .$kwota1. '</p>';
-		//echo '<p>' .$data1. '</p>';
-		//echo '<p>' .$zaplata. '</p>';
-		//echo '<p>' .$kategoria1. '</p>';
-		//echo '<p>' .$komentarz1. '</p>';
-		
+
+		$dlugosckwoty=strlen($kwota1);
+
+		for($i=0;$i<$dlugosckwoty;$i++)
+		{
+			if($kwota1[$i]==',')
+			{
+				$kwota1[$i]='.';
+			}
+		}
 		require_once "connect.php";
 		
 		$polaczenie = @new mysqli($host, $db_user, $db_password, $db_name);
@@ -108,7 +111,7 @@
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link" href="bilans.php"> Sprawdź bilans </a>
+						<a class="nav-link" href="bilans.php?okres=Bieżący+miesiąc"> Sprawdź bilans </a>
 					</li>
 					
 					<li class="nav-item">
@@ -149,7 +152,7 @@
 				</div>
 				
 				<div class="col-sm-6 col-md-6 text-md-left mt-3">
-				<form method="post">
+				<form method="post" target="">
 					<p><input class="ml-4" type="text" name="kwota" reqired></p>
 					<p><input class="ml-4" type="date" name="data" reqired></p>
 					<p><fieldset>	
