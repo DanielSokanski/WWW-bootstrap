@@ -2,9 +2,9 @@
 	session_start();
 	$id=$_SESSION['id'];
 	
-	if(isset($_GET['okres']))
+	if(isset($_POST['okres']))
 	{
-		$okres = $_GET['okres'];
+		$okres = $_POST['okres'];
 		
 		require_once "connect.php";
 		$polaczenie = @new mysqli($host, $db_user, $db_password, $db_name);
@@ -139,6 +139,7 @@
 	{
 	$data_pocz = $_POST['data_pocz'];
 	$data_kon=$_POST['data_kon'];
+
 	require_once "connect.php";
 	$polaczenie = @new mysqli($host, $db_user, $db_password, $db_name);
 	if($polaczenie->connect_errno!=0)
@@ -351,7 +352,7 @@
 			<h5> Z jakiego zakresu czasowego chcesz zobaczyć swój bilans? </h5>
 			<p>Wybierz z poniższych list</p>
 			
-			<form  id="okresczasu" method="get">
+			<form  id="okresczasu" method="post">
 				<div class="col-sm-6col-md-6 mt-4 text-center text-dark d-inline-block text-right">
 				<select id="okres" name="okres">
 					<option value="Bieżący miesiąc" name="Bieżący miesiąc" selected>Bieżący miesiąc</option>
